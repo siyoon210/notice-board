@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "Notice")
+@Table(name = "notice")
 @Getter
 @Setter
 @Builder
@@ -25,12 +25,14 @@ public class Notice {
     @Column
     private Date registerDate;
 
-    @Column
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Column
     private Date modifyDate;
 
-    @Column
+    @OneToOne
+    @JoinColumn(name = "notice_content_id")
     private NoticeContent noticeContent;
 }

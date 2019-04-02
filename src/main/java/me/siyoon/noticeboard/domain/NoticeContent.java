@@ -8,7 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name="Notice_Content")
+@Table(name="notice_content")
 @Getter
 @Setter
 @Builder
