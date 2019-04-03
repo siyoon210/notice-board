@@ -1,5 +1,5 @@
 INSERT INTO user (email, password, nick_name)
-VALUES ('user@naver.com', '1234', '김유저');
+VALUES ('admin@notice.com', '1234', '관리자');
 
 INSERT INTO notice_content (content)
 VALUES ('공지사항에 대한 자세한 내용은 이부분에 적어주세요.');

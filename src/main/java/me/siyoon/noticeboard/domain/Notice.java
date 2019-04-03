@@ -5,6 +5,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -30,6 +32,7 @@ public class Notice {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
     @UpdateTimestamp
@@ -37,5 +40,6 @@ public class Notice {
 
     @OneToOne
     @JoinColumn(name = "notice_content_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private NoticeContent noticeContent;
 }
