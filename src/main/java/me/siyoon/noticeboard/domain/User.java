@@ -1,9 +1,6 @@
 package me.siyoon.noticeboard.domain;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,19 +8,19 @@ import javax.persistence.*;
 @Table(name = "user")
 @Getter
 @Setter
-@Builder
+@Builder @NoArgsConstructor @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String nickName;
 }
