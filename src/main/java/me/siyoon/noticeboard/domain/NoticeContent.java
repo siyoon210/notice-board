@@ -1,9 +1,6 @@
 package me.siyoon.noticeboard.domain;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,7 +8,8 @@ import javax.persistence.*;
 @Table(name="notice_content")
 @Getter
 @Setter
-@Builder
+@Builder @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(of="id")
 public class NoticeContent {
     @Id

@@ -22,7 +22,7 @@ public class UserRepositoryTest {
     @Test
     public void test1_유저_id로_조회하기() {
         Long id = 1L;
-        User user = userRepository.findById(id).get();
+        User user = userRepository.findUserById(id);
 
         Assert.assertEquals(id, user.getId());
     }
@@ -42,12 +42,12 @@ public class UserRepositoryTest {
         Long id = 1L;
         String newNickName = "관리자2";
 
-        User user1 = userRepository.findById(id).get();
+        User user1 = userRepository.findUserById(id);
 
         user1.setNickName(newNickName);
         userRepository.saveAndFlush(user1);
 
-        User user2 = userRepository.findById(id).get();
+        User user2 = userRepository.findUserById(id);
 
         Assert.assertEquals(newNickName, user2.getNickName());
     }
