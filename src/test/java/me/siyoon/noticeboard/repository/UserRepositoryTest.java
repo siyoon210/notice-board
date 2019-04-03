@@ -28,6 +28,14 @@ public class UserRepositoryTest {
     }
 
     @Test
+    public void test1_2_유저_email로_조회하기() {
+        String email = "admin@notice.com";
+        User user = userRepository.findUserByEmail(email);
+
+        Assert.assertEquals(email, user.getEmail());
+    }
+
+    @Test
     public void test2_유저_한명_삽입하기() {
         User user = User.builder().email("user@naver.com")
                 .password("1234")
