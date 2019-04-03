@@ -1,6 +1,6 @@
 package me.siyoon.noticeboard.service;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import me.siyoon.noticeboard.domain.Notice;
 import me.siyoon.noticeboard.domain.enums.PageSize;
 import me.siyoon.noticeboard.dto.NoticeForm;
@@ -10,7 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class NoticeServiceImpl implements NoticeService {
     private final NoticeRepository noticeRepository;
 
