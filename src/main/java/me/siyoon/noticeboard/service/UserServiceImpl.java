@@ -7,7 +7,6 @@ import me.siyoon.noticeboard.domain.enums.Status;
 import me.siyoon.noticeboard.dto.UserForm;
 import me.siyoon.noticeboard.repository.RoleRepository;
 import me.siyoon.noticeboard.repository.UserRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -41,10 +40,11 @@ public class UserServiceImpl implements UserService{
     }
 
     private User convertFormToUser(UserForm userForm) {
-        User user = new User();
-        BeanUtils.copyProperties(userForm, user);
-
-        return user;
+        return User.builder()
+                .email(userForm.getEmail())
+                .nickName(userForm.getNickName())
+                .password(userForm.getPassword())
+                .build();
     }
 
     private void encodePassword(User user) {
