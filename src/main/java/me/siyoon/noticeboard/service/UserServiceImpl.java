@@ -3,7 +3,7 @@ package me.siyoon.noticeboard.service;
 import lombok.RequiredArgsConstructor;
 import me.siyoon.noticeboard.domain.Role;
 import me.siyoon.noticeboard.domain.User;
-import me.siyoon.noticeboard.domain.enums.Status;
+import me.siyoon.noticeboard.domain.enums.Authority;
 import me.siyoon.noticeboard.dto.UserForm;
 import me.siyoon.noticeboard.repository.RoleRepository;
 import me.siyoon.noticeboard.repository.UserRepository;
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService{
 
     private void setRoles(User user) {
         Set<Role> roles = new HashSet<>();
-        roles.add(roleRepository.findRoleByStatus(Status.USER));
+        roles.add(roleRepository.findRoleByAuthority(Authority.USER));
         user.setRoles(roles);
     }
 }

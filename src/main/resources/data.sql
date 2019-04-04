@@ -1,6 +1,6 @@
-INSERT INTO role (status)
+INSERT INTO role (authority)
 VALUES ('ADMIN');
-INSERT INTO role (status)
+INSERT INTO role (authority)
 VALUES ('USER');
 
 INSERT INTO user (email, password, nick_name)
