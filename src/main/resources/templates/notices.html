@@ -6,5 +6,10 @@
 </head>
 <body>
 Hello
+<div th:each="notice : ${noticePage.content}">
+    <p th:text="${notice.title}"></p>
+    <p th:text="${notice.noticeContent.content}"></p>
+    <p th:text="${notice.user.nickName}"></p>
+</div>
 </body>
 </html>

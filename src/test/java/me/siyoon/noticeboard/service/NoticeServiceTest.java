@@ -55,7 +55,7 @@ public class NoticeServiceTest {
     }
 
     @Test
-    public void 지_한건_수정하기() {
+    public void 공지_한건_수정하기() {
         Long id = 1L;
 
         NoticeForm noticeForm = new NoticeForm();
