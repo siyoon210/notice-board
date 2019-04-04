@@ -24,14 +24,22 @@ public class NoticeController {
         return "notices";
     }
 
+    @PostMapping("/notices")
+    public String addNotice(@ModelAttribute NoticeForm noticeForm) {
+        noticeService.addNotice(noticeForm);
+        return "redirect:/notices";
+    }
+
+    @DeleteMapping("/notices/{id}")
+    public String deleteNotice(@PathVariable(value = "id") Long id) {
+        noticeService.deleteNotice(id);
+        return "redirect:/notices";
+    }
+
     @GetMapping("/edit")
     public String edit() {
         return "edit";
     }
 
-    @PostMapping("/edit")
-    public String edit(@ModelAttribute NoticeForm noticeForm) {
-        noticeService.addNotice(noticeForm);
-        return "redirect:notices";
-    }
+
 }

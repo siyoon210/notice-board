@@ -18,9 +18,13 @@ Hello
 </ul>
 
 <div th:each="notice : ${noticePage.content}">
-    제목) <p th:text="${notice.title}"></p>
-    내용) <p th:text="${notice.noticeContent.content}"></p>
-    글쓴이) <p th:text="${notice.user.nickName}"></p>
+    <form th:method="DELETE" th:action="@{'/notices/' + ${notice.id}}">
+        <button type="submit">삭제</button>
+    </form>
+    제목) <span th:text="${notice.title}"></span> <br>
+    내용) <span th:text="${notice.noticeContent.content}"></span> <br>
+    글쓴이) <span th:text="${notice.user.nickName}"></span> <br>
+    <hr>
 </div>
 <a th:href="@{/edit}">글쓰기</a>
 </body>
