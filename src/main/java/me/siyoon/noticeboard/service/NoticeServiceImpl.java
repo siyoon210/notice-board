@@ -19,7 +19,7 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public Page<Notice> getNoticePage(Integer startPage) {
-        PageRequest pageRequest = PageRequest.of(startPage, PageSize.Notice.getLimit());
+        PageRequest pageRequest = PageRequest.of(startPage, PageSize.NOTICE.getLimit());
 
         return noticeRepository.findNotices(pageRequest);
     }

@@ -1,6 +1,7 @@
 package me.siyoon.noticeboard.domain;
 
 import lombok.*;
+import me.siyoon.noticeboard.domain.enums.Status;
 
 import javax.persistence.*;
 
@@ -15,5 +16,6 @@ public class Role {
     private Long id;
 
     @Column(length = 20, nullable = false, unique = true)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 }

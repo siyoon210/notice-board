@@ -30,7 +30,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         for(Role role : user.getRoles()){
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getStatus().name()));
         }
 
         CustomUserDetails userDetails = new CustomUserDetails(email, user.getPassword(), authorities);

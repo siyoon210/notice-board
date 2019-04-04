@@ -1,10 +1,10 @@
-INSERT INTO role (name)
+INSERT INTO role (status)
 VALUES ('ADMIN');
-INSERT INTO role (name)
+INSERT INTO role (status)
 VALUES ('USER');
 
 INSERT INTO user (email, password, nick_name)
-VALUES ('admin@notice.com', '1234', '관리자');
+VALUES ('admin@notice.com', '$2a$10$PP2QsDhRgXnLdRsR5TpL0.s/DodmN7UAT/1Ono6saTpb.WIJYt4BC', '관리자');
 INSERT INTO user_role (user_id, role_id)
 VALUES (1, 1);
 

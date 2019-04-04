@@ -5,8 +5,6 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum PageSize {
-    NOTICE(10);
-
-    private Integer limit;
+public enum Status {
+    ADMIN, USER
 }

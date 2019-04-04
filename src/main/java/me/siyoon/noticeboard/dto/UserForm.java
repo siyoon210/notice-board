@@ -1,6 +1,7 @@
 package me.siyoon.noticeboard.dto;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
