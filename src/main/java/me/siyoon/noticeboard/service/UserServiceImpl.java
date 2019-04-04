@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.siyoon.noticeboard.domain.User;
 import me.siyoon.noticeboard.dto.UserForm;
 import me.siyoon.noticeboard.repository.UserRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,11 +24,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User signUp(UserForm userForm) {
-        return null;
-    }
-
-    @Override
-    public User modifyUser(UserForm userForm) {
-        return null;
+        User user = new User();
+        BeanUtils.copyProperties(userForm, user);
+        return user;
     }
 }

@@ -9,6 +9,4 @@ public interface UserService {
     User getUser(Long id);
 
     User signUp(UserForm userForm);
-
-    User modifyUser(UserForm userForm);
 }
