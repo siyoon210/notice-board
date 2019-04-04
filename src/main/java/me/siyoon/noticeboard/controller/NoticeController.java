@@ -36,10 +36,21 @@ public class NoticeController {
         return "redirect:/notices";
     }
 
+    @PutMapping("/notices")
+    public String modifyNotice(@ModelAttribute NoticeForm noticeForm) {
+        noticeService.modifyNotice(noticeForm);
+        return "redirect:/notices";
+    }
+
     @GetMapping("/edit")
     public String edit() {
         return "edit";
     }
 
-
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable(value = "id") Long id, Model model) {
+        Notice notice = noticeService.getNotice(id);
+        model.addAttribute("notice", notice);
+        return "edit";
+    }
 }

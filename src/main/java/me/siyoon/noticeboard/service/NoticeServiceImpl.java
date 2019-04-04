@@ -12,8 +12,8 @@ import me.siyoon.noticeboard.security.CustomUserDetails;
 import me.siyoon.noticeboard.util.UserDetailsUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -55,11 +55,23 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
+    @Transactional
     public Notice modifyNotice(NoticeForm noticeForm) {
-        Notice notice = noticeRepository.findNoticeById(noticeForm.getId());
-        notice.setTitle(noticeForm.getTitle());
+        Notice notice = this.getNotice(noticeForm.getId());
+
+        if (isValidAuthority(notice.getId())) {
+            notice.setTitle(noticeForm.getTitle());
+            notice.setNoticeContent(modifyNoticeContent(noticeForm, notice));
+        }
+
+        //TODO thorws 권한 없음 익셉션
 
         return notice;
+    }
+
+    private NoticeContent modifyNoticeContent(NoticeForm noticeForm, Notice notice) {
+        return noticeContentService.modifyNoticeContent(
+                notice.getNoticeContent().getId(), noticeForm.getContent());
     }
 
     @Override
@@ -72,8 +84,8 @@ public class NoticeServiceImpl implements NoticeService {
         // TODO 권한검사 throw InValid Autohority
     }
 
-    private boolean isValidAuthority(Long id) {
-        Long userId = this.getNotice(id).getUser().getId();
+    private boolean isValidAuthority(Long noticeId) {
+        Long userId = this.getNotice(noticeId).getUser().getId();
         CustomUserDetails userDetails = UserDetailsUtil.get();
 
         if (userId.equals(userDetails.getId())) {

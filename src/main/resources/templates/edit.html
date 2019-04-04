@@ -4,15 +4,16 @@
     <meta charset="UTF-8">
     <title>글 작성하기</title>
 </head>
-<body>
-<form method="POST" th:action="@{/notices}">
+<body th:with="isPost=${notice} == null ? true : false">
+<form th:method="${isPost} ? 'POST' : 'PUT'" th:action="@{/notices}">
 
     <label>제목</label>
-    <input type="text" name="title" required>
+    <input type="text" name="title" th:value="${isPost} ? '' : ${notice.title}" required>
 
     <label>내용</label>
-    <input type="text" name="content" required>
+    <input type="text" name="content" th:value="${isPost} ? '' : ${notice.noticeContent.content}" required>
 
+    <input type="hidden" name="id" th:value="${isPost} ? '' : ${notice.id}"/>
     <button type="submit">글쓰기</button>
 </form>
 </body>
