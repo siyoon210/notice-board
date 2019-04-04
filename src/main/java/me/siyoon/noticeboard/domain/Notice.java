@@ -8,7 +8,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Table(name = "notice")
@@ -28,7 +27,7 @@ public class Notice {
     @CreationTimestamp
     private LocalDateTime registerDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
@@ -36,7 +35,7 @@ public class Notice {
     @UpdateTimestamp
     private LocalDateTime modifyDate;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "notice_content_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private NoticeContent noticeContent;
