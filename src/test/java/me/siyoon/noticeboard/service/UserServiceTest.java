@@ -33,14 +33,17 @@ public class UserServiceTest {
 
     @Test
     public void 회원가입으로_유저_한건_추가하기() {
+        String email = "newUser@naver.com";
+
         UserForm userForm = UserForm.builder()
-                .email("newUser@naver.com")
+                .email(email)
                 .nickName("신유저")
                 .password("12345")
                 .build();
 
-        User user = userService.signUp(userForm);
+        User user1 = userService.signUp(userForm);
+        User user2 = userService.getUser(email);
 
-        Assert.assertEquals(userForm.getEmail(), user.getEmail());
+        Assert.assertEquals(user1.getEmail(), user2.getEmail());
     }
 }
