@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인</title>
+</head>
+<body>
+<form method="POST" th:action="@{/session}">
+
+    <label>이메일 주소</label>
+    <input type="email" name="username" id="inputUsernameEmail" required>
+
+    <label>비밀번호</label>
+    <input type="password" name="password" id="inputPassword" required>
+
+    <button type="submit">로그인</button>
+</form>
+</body>
+</html>

@@ -1,11 +1,22 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>공지사항</title>
 </head>
 <body>
 Hello
+<ul>
+    <li sec:authorize="isAuthenticated()"><span sec:authentication="principal.username"></span></li>
+    <li><a th:href="@{/notices}">공지사항</a></li>
+    <li sec:authorize="hasRole('ROLE_USER')">
+        <a th:href="@{'/users/'+ ${#authentication.principal.id}}">내정보</a>
+    </li>
+    <li sec:authorize="!isAuthenticated()"><a th:href="@{/users}">회원가입</a></li>
+    <li sec:authorize="!isAuthenticated()"><a th:href="@{/session}">로그인</a></li>
+    <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">로그아웃</a></li>
+</ul>
+
 <div th:each="notice : ${noticePage.content}">
     <p th:text="${notice.title}"></p>
     <p th:text="${notice.noticeContent.content}"></p>
