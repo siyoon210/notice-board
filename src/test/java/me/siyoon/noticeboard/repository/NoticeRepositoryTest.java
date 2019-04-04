@@ -12,7 +12,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,11 +22,14 @@ import java.util.stream.Collectors;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @FixMethodOrder(value = MethodSorters.NAME_ASCENDING)
+@Transactional
 public class NoticeRepositoryTest {
     @Autowired
     private NoticeRepository noticeRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private EntityManager entityManager;
 
     @Test
     public void test1_공지사항_목록_한페이지_불러오기() {
@@ -59,13 +64,15 @@ public class NoticeRepositoryTest {
     }
 
     @Test
+    @Transactional
     public void test4_공지사항_한건_수정하기() {
         Long id = 1L;
         String newTitle = "잠시 수정 중 입니다.";
 
         Notice noticeById1 = noticeRepository.findNoticeById(id);
         noticeById1.setTitle(newTitle);
-        noticeRepository.saveAndFlush(noticeById1);
+
+        entityManager.flush();
 
         Notice noticeById2 = noticeRepository.findNoticeById(id);
 

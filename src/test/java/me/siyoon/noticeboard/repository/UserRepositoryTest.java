@@ -9,15 +9,20 @@ import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @FixMethodOrder(value = MethodSorters.NAME_ASCENDING)
+@Transactional
 public class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private EntityManager entityManager;
 
     @Test
     public void test1_유저_id로_조회하기() {
@@ -46,6 +51,7 @@ public class UserRepositoryTest {
     }
 
     @Test
+    @Transactional
     public void test3_유저_한명_정보수정하기() {
         Long id = 1L;
         String newNickName = "관리자2";
@@ -53,7 +59,8 @@ public class UserRepositoryTest {
         User user1 = userRepository.findUserById(id);
 
         user1.setNickName(newNickName);
-        userRepository.saveAndFlush(user1);
+
+        entityManager.flush();
 
         User user2 = userRepository.findUserById(id);
 

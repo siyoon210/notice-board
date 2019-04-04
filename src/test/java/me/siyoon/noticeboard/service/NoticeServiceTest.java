@@ -19,6 +19,7 @@ import javax.persistence.EntityManager;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @FixMethodOrder(value = MethodSorters.NAME_ASCENDING)
+@Transactional
 public class NoticeServiceTest {
     @Autowired
     private NoticeService noticeService;

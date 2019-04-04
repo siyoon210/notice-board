@@ -9,14 +9,20 @@ import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
 
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @FixMethodOrder(value = MethodSorters.NAME_ASCENDING)
+@Transactional
 public class NoticeContentRepositoryTest {
     @Autowired
-    NoticeContentRepository noticeContentRepository;
+    private NoticeContentRepository noticeContentRepository;
+    @Autowired
+    private EntityManager entityManager;
 
     @Test
     public void test1_공지_내용_한건_조회하기() {
@@ -38,13 +44,15 @@ public class NoticeContentRepositoryTest {
     }
 
     @Test
+    @Transactional
     public void test3_공지_내용_한건_수정하기() {
         Long id = 1L;
         String newContent = "잠시 수정 중 입니다.";
 
         NoticeContent noticeContentById = noticeContentRepository.findNoticeContentById(id);
         noticeContentById.setContent(newContent);
-        noticeContentRepository.saveAndFlush(noticeContentById);
+
+        entityManager.flush();
 
         NoticeContent noticeContentById2 = noticeContentRepository.findNoticeContentById(id);
 
