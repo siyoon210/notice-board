@@ -43,12 +43,12 @@ public class NoticeController {
     }
 
     @GetMapping("/edit")
-    public String edit() {
+    public String getEditForm() {
         return "edit";
     }
 
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable(value = "id") Long id, Model model) {
+    public String getEditForm(@PathVariable(value = "id") Long id, Model model) {
         Notice notice = noticeService.getNotice(id);
         model.addAttribute("notice", notice);
         return "edit";

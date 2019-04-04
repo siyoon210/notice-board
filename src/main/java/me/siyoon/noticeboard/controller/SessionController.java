@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class SessionController {
 
     @GetMapping
-    public String login() {
+    public String getLoginForm() {
         return "login";
     }
 }
