@@ -1,13 +1,33 @@
 package me.siyoon.noticeboard.service;
 
-import me.siyoon.noticeboard.domain.Notice;
-import me.siyoon.noticeboard.dto.NoticeForm;
-import org.springframework.data.domain.Page;
+import lombok.RequiredArgsConstructor;
+import me.siyoon.noticeboard.domain.NoticeContent;
+import me.siyoon.noticeboard.repository.NoticeContentRepository;
+import org.springframework.stereotype.Service;
 
-public interface NoticeContentService {
-    Notice addNoticeContent(String content);
+@Service
+@RequiredArgsConstructor
+public class NoticeContentServiceImpl implements NoticeContentService {
+    private final NoticeContentRepository noticeContentRepository;
 
-    Notice getNoticeContent(Long id);
+    @Override
+    public NoticeContent addNoticeContent(String content) {
+        NoticeContent noticeContent = NoticeContent.builder()
+                .content(content)
+                .build();
 
-    Notice modifyNoticeContent(String content);
+        return noticeContentRepository.save(noticeContent);
+    }
+
+    @Override
+    public NoticeContent getNoticeContent(Long id) {
+        return noticeContentRepository.findNoticeContentById(id);
+    }
+
+    @Override
+    public NoticeContent modifyNoticeContent(Long id, String content) {
+        NoticeContent noticeContent = noticeContentRepository.findNoticeContentById(id);
+        noticeContent.setContent(content);
+        return noticeContent;
+    }
 }

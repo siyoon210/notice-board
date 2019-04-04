@@ -1,17 +1,11 @@
 package me.siyoon.noticeboard.service;
 
-import me.siyoon.noticeboard.domain.Notice;
-import me.siyoon.noticeboard.dto.NoticeForm;
-import org.springframework.data.domain.Page;
+import me.siyoon.noticeboard.domain.NoticeContent;
 
-public interface NoticeService {
-    Page<Notice> getNoticePage(Integer startPage);
+public interface NoticeContentService {
+    NoticeContent addNoticeContent(String content);
 
-    Notice addNotice(NoticeForm noticeForm);
+    NoticeContent getNoticeContent(Long id);
 
-    Notice getNotice(Long id);
-
-    Notice modifyNotice(NoticeForm noticeForm);
-
-    void deleteNotice(Long id);
+    NoticeContent modifyNoticeContent(Long id, String content);
 }
