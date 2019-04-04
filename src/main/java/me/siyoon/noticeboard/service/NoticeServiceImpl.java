@@ -3,12 +3,14 @@ package me.siyoon.noticeboard.service;
 import lombok.RequiredArgsConstructor;
 import me.siyoon.noticeboard.domain.Notice;
 import me.siyoon.noticeboard.domain.NoticeContent;
+import me.siyoon.noticeboard.domain.User;
 import me.siyoon.noticeboard.domain.enums.PageSize;
 import me.siyoon.noticeboard.dto.NoticeForm;
 import me.siyoon.noticeboard.repository.NoticeContentRepository;
 import me.siyoon.noticeboard.repository.NoticeRepository;
 import me.siyoon.noticeboard.repository.UserRepository;
 import me.siyoon.noticeboard.security.CustomUserDetails;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,7 +20,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class NoticeServiceImpl implements NoticeService {
     private final NoticeRepository noticeRepository;
-    private final NoticeContentRepository noticeContentRepository;
+    private final NoticeContentService noticeContentService;
     private final UserService userService;
 
     @Override
@@ -30,20 +32,26 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public Notice addNotice(NoticeForm noticeForm) {
-        Notice notice = new Notice();
-        notice.setTitle(noticeForm.getTitle());
-
-        //TODO noticeContentServive로 빼기
-        NoticeContent noticeContent = new NoticeContent();
-        noticeContent.setContent(noticeForm.getContent());
-
-        //TODO noticeContentServive로 빼기
-        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        notice.setUser(userService.getUser(userDetails.getEmail()));
-        notice.setNoticeContent(noticeContentRepository.save(noticeContent));
+        Notice notice = convertFormToNotice(noticeForm);
 
         return noticeRepository.save(notice);
+    }
+
+    private Notice convertFormToNotice(NoticeForm noticeForm) {
+        NoticeContent noticeContent = noticeContentService.addNoticeContent(noticeForm.getContent());
+
+        CustomUserDetails userDetails = getUserDetailsFromContextHolder();
+        User user = userService.getUser(userDetails.getEmail());
+
+        return Notice.builder()
+                .title(noticeForm.getTitle())
+                .noticeContent(noticeContent)
+                .user(user)
+                .build();
+    }
+
+    private CustomUserDetails getUserDetailsFromContextHolder() {
+        return (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
     @Override
