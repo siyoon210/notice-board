@@ -35,11 +35,10 @@ public class UserServiceTest {
     public void 회원가입으로_유저_한건_추가하기() {
         String email = "newUser@naver.com";
 
-        UserForm userForm = UserForm.builder()
-                .email(email)
-                .nickName("신유저")
-                .password("12345")
-                .build();
+        UserForm userForm = new UserForm();
+        userForm.setEmail(email);
+        userForm.setNickName("신유저");
+        userForm.setPassword("12345");
 
         User user1 = userService.signUp(userForm);
         User user2 = userService.getUser(email);

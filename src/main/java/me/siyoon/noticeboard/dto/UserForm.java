@@ -4,7 +4,6 @@ import lombok.*;
 
 @Getter
 @Setter
-@NoArgsConstructor @AllArgsConstructor @Builder
 public class UserForm {
     private String email;
     private String password;

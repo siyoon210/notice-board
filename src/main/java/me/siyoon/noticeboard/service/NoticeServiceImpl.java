@@ -2,8 +2,10 @@ package me.siyoon.noticeboard.service;
 
 import lombok.RequiredArgsConstructor;
 import me.siyoon.noticeboard.domain.Notice;
+import me.siyoon.noticeboard.domain.NoticeContent;
 import me.siyoon.noticeboard.domain.enums.PageSize;
 import me.siyoon.noticeboard.dto.NoticeForm;
+import me.siyoon.noticeboard.repository.NoticeContentRepository;
 import me.siyoon.noticeboard.repository.NoticeRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class NoticeServiceImpl implements NoticeService {
     private final NoticeRepository noticeRepository;
+    private final NoticeContentRepository noticeContentRepository;
 
     @Override
     public Page<Notice> getNoticePage(Integer startPage) {
@@ -23,7 +26,16 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public Notice addNotice(NoticeForm noticeForm) {
-        return null;
+        Notice notice = new Notice();
+        notice.setTitle(noticeForm.getTitle());
+
+        //TODO noticeContentServive로 빼기
+        NoticeContent noticeContent = new NoticeContent();
+        noticeContent.setContent(noticeForm.getContent());
+
+        notice.setNoticeContent(noticeContentRepository.save(noticeContent));
+
+        return noticeRepository.save(notice);
     }
 
     @Override
@@ -33,7 +45,10 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public Notice modifyNotice(NoticeForm noticeForm) {
-        return null;
+        Notice notice = noticeRepository.findNoticeById(noticeForm.getId());
+        notice.setTitle(noticeForm.getTitle());
+
+        return notice;
     }
 
     @Override
