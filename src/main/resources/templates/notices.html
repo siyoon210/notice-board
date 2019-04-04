@@ -22,6 +22,8 @@ Hello
         <button type="submit">삭제</button>
     </form>
     <a th:href="@{'/edit/' + ${notice.id}}">수정</a><br>
+    작성일자) <span th:text="${notice.registerDate}"></span> <br>
+    최종 수정일자) <span th:text="${notice.modifyDate}"></span> <br>
     제목) <span th:text="${notice.title}"></span> <br>
     내용) <span th:text="${notice.noticeContent.content}"></span> <br>
     글쓴이) <span th:text="${notice.user.nickName}"></span> <br>
