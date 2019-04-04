@@ -26,6 +26,21 @@ public class UserServiceTest {
     }
 
     @Test
+    public void 유저_한건_이메일로_조회하기_이메일NULL인경우() {
+        String email = null;
+
+        User user = null;
+        try {
+            user = userService.getUser(email);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        Assert.assertNull(user);
+    }
+
+
+    @Test
     public void 유저_한건_인덱스ID로_조회하기() {
         Long id = 1L;
         User user = userService.getUser(id);

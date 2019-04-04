@@ -22,12 +22,22 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User getUser(String email) {
-        return userRepository.findUserByEmail(email);
+        User user = userRepository.findUserByEmail(email);
+        validateUser(user);
+        return user;
     }
 
     @Override
     public User getUser(Long id) {
-        return userRepository.findUserById(id);
+        User user = userRepository.findUserById(id);
+        validateUser(user);
+        return user;
+    }
+
+    private void validateUser(User user) {
+        if (user == null) {
+            throw new IllegalArgumentException("User 조회 실패");
+        }
     }
 
     @Override
