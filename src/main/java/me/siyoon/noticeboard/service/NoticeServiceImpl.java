@@ -23,6 +23,7 @@ public class NoticeServiceImpl implements NoticeService {
     private final UserService userService;
 
     @Override
+    @Transactional(readOnly = true)
     public Page<Notice> getNoticePage(Integer startPage) {
         PageRequest pageRequest = PageRequest.of(startPage, PageSize.NOTICE.getLimit());
 
@@ -30,6 +31,7 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
+    @Transactional
     public Notice addNotice(NoticeForm noticeForm) {
         Notice notice = convertFormToNotice(noticeForm);
 
@@ -50,6 +52,7 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Notice getNotice(Long id) {
         return noticeRepository.findNoticeById(id);
     }
@@ -75,6 +78,7 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
+    @Transactional
     public void deleteNotice(Long id) {
         if (isValidAuthority(id)) {
             noticeRepository.deleteById(id);

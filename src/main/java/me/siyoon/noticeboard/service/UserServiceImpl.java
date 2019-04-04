@@ -9,6 +9,7 @@ import me.siyoon.noticeboard.repository.RoleRepository;
 import me.siyoon.noticeboard.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,6 +22,7 @@ public class UserServiceImpl implements UserService{
     private final PasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional(readOnly = true)
     public User getUser(String email) {
         User user = userRepository.findUserByEmail(email);
         validateUser(user);
@@ -28,6 +30,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User getUser(Long id) {
         User user = userRepository.findUserById(id);
         validateUser(user);
@@ -41,6 +44,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    @Transactional
     public User signUp(UserForm userForm) {
         User user = convertFormToUser(userForm);
         encodePassword(user);
