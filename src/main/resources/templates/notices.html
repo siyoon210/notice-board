@@ -18,9 +18,10 @@ Hello
 </ul>
 
 <div th:each="notice : ${noticePage.content}">
-    <p th:text="${notice.title}"></p>
-    <p th:text="${notice.noticeContent.content}"></p>
-    <p th:text="${notice.user.nickName}"></p>
+    제목) <p th:text="${notice.title}"></p>
+    내용) <p th:text="${notice.noticeContent.content}"></p>
+    글쓴이) <p th:text="${notice.user.nickName}"></p>
 </div>
+<a th:href="@{/edit}">글쓰기</a>
 </body>
 </html>

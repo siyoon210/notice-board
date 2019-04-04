@@ -7,8 +7,11 @@ import me.siyoon.noticeboard.domain.enums.PageSize;
 import me.siyoon.noticeboard.dto.NoticeForm;
 import me.siyoon.noticeboard.repository.NoticeContentRepository;
 import me.siyoon.noticeboard.repository.NoticeRepository;
+import me.siyoon.noticeboard.repository.UserRepository;
+import me.siyoon.noticeboard.security.CustomUserDetails;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Service;
 public class NoticeServiceImpl implements NoticeService {
     private final NoticeRepository noticeRepository;
     private final NoticeContentRepository noticeContentRepository;
+    private final UserService userService;
 
     @Override
     public Page<Notice> getNoticePage(Integer startPage) {
@@ -33,6 +37,10 @@ public class NoticeServiceImpl implements NoticeService {
         NoticeContent noticeContent = new NoticeContent();
         noticeContent.setContent(noticeForm.getContent());
 
+        //TODO noticeContentServive로 빼기
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        notice.setUser(userService.getUser(userDetails.getEmail()));
         notice.setNoticeContent(noticeContentRepository.save(noticeContent));
 
         return noticeRepository.save(notice);
