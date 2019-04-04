@@ -2,6 +2,10 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
     <title>공지사항</title>
 </head>
 <body>
@@ -22,13 +26,35 @@ Hello
         <button type="submit">삭제</button>
     </form>
     <a th:href="@{'/edit/' + ${notice.id}}">수정</a><br>
+    <button type="button" th:onclick="'getNoticeContent('+${notice.id}+')'">조회</button><br>
     작성일자) <span th:text="${notice.registerDate}"></span> <br>
     최종 수정일자) <span th:text="${notice.modifyDate}"></span> <br>
     제목) <span th:text="${notice.title}"></span> <br>
     내용) <span th:text="${notice.noticeContent.content}"></span> <br>
     글쓴이) <span th:text="${notice.user.nickName}"></span> <br>
+    <p th:id="'content'+${notice.id}"></p>
     <hr>
 </div>
 <a th:href="@{/edit}">글쓰기</a>
 </body>
+<script>
+    function getNoticeContent(noticeId) {
+        var attrId = 'content' + noticeId;
+
+        $.ajax({
+            url: "/api/content/" + noticeId,
+            type: "GET",
+            success: function (content) {
+                $('#'+attrId).text(content);
+            },
+            error: function (jqXHR) {
+                if (jqXHR.status === 400) {
+                    alert("id값이 올바르지 않습니다.");
+                } else if (jqXHR.status === 500) {
+                    alert("서버의 문제가 발생했습니다.");
+                }
+            }
+        });
+    }
+</script>
 </html>
