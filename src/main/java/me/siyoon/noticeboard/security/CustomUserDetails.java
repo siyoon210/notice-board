@@ -2,7 +2,9 @@ package me.siyoon.noticeboard.security;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.siyoon.noticeboard.domain.enums.Authority;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 import java.util.Collection;
@@ -19,5 +21,11 @@ public class CustomUserDetails extends User {
 
     public String getEmail() {
         return super.getUsername();
+    }
+
+    public boolean hasAuthority(Authority authority) {
+        Collection<GrantedAuthority> authorities = super.getAuthorities();
+
+        return authorities.contains(new SimpleGrantedAuthority("ROLE_" + authority.name()));
     }
 }
