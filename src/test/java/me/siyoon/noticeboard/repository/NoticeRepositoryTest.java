@@ -3,10 +3,8 @@ package me.siyoon.noticeboard.repository;
 import me.siyoon.noticeboard.domain.Notice;
 import me.siyoon.noticeboard.domain.NoticeContent;
 import org.junit.Assert;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
@@ -21,7 +19,6 @@ import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@FixMethodOrder(value = MethodSorters.NAME_ASCENDING)
 @Transactional
 public class NoticeRepositoryTest {
     @Autowired
@@ -32,7 +29,7 @@ public class NoticeRepositoryTest {
     private EntityManager entityManager;
 
     @Test
-    public void test1_공지사항_목록_한페이지_불러오기() {
+    public void 공지사항_목록_한페이지_불러오기() {
         // TODO 아 좀 이상해 구려
         PageRequest of = PageRequest.of(0, 10);
 
@@ -43,7 +40,7 @@ public class NoticeRepositoryTest {
     }
 
     @Test
-    public void test2_공지사항_한건_조회하기() {
+    public void 공지사항_한건_조회하기() {
         Long id = 1L;
         Notice noticeById = noticeRepository.findNoticeById(id);
 
@@ -51,7 +48,7 @@ public class NoticeRepositoryTest {
     }
 
     @Test
-    public void test3_공지사항_한건_추가하기() {
+    public void 공지사항_한건_추가하기() {
         Notice notice = Notice.builder()
                 .title("반갑습니다.")
                 .user(userRepository.findUserById(1L))
@@ -64,8 +61,7 @@ public class NoticeRepositoryTest {
     }
 
     @Test
-    @Transactional
-    public void test4_공지사항_한건_수정하기() {
+    public void 공지사항_한건_수정하기() {
         Long id = 1L;
         String newTitle = "잠시 수정 중 입니다.";
 
@@ -80,7 +76,7 @@ public class NoticeRepositoryTest {
     }
 
     @Test
-    public void test5_공지사항_한건_삭제하기() {
+    public void 공지사항_한건_삭제하기() {
         List<Notice> 삭제전 = noticeRepository.findAll();
 
         noticeRepository.deleteById(1L);

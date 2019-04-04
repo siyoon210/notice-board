@@ -18,7 +18,6 @@ import javax.persistence.EntityManager;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@FixMethodOrder(value = MethodSorters.NAME_ASCENDING)
 @Transactional
 public class NoticeServiceTest {
     @Autowired
@@ -27,7 +26,7 @@ public class NoticeServiceTest {
     private EntityManager entityManager;
 
     @Test
-    public void test1_공지_한건_인덱스ID로_조회하기() {
+    public void 공지_한건_인덱스ID로_조회하기() {
         Long id = 1L;
         Notice notice = noticeService.getNotice(id);
 
@@ -35,7 +34,7 @@ public class NoticeServiceTest {
     }
 
     @Test
-    public void test2_공지_한페이지_불러오기() {
+    public void 공지_한페이지_불러오기() {
         int page = 0;
         Page<Notice> noticePage = noticeService.getNoticePage(0);
 
@@ -43,7 +42,7 @@ public class NoticeServiceTest {
     }
 
     @Test
-    public void test3_공지_한건_추가하기() {
+    public void 공지_한건_추가하기() {
         NoticeForm noticeForm = new NoticeForm();
         noticeForm.setTitle("새로운 공지사항입니다!");
         noticeForm.setContent("내용 확인도 잘하세요");
@@ -56,8 +55,7 @@ public class NoticeServiceTest {
     }
 
     @Test
-    @Transactional
-    public void test4_공지_한건_수정하기() {
+    public void 지_한건_수정하기() {
         Long id = 1L;
 
         NoticeForm noticeForm = new NoticeForm();
@@ -75,7 +73,7 @@ public class NoticeServiceTest {
     }
 
     @Test
-    public void test5_공지_한건_삭제하기() {
+    public void 공지_한건_삭제하기() {
         Long id = 1L;
         noticeService.deleteNotice(id);
 

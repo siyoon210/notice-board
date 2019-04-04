@@ -2,10 +2,8 @@ package me.siyoon.noticeboard.repository;
 
 import me.siyoon.noticeboard.domain.User;
 import org.junit.Assert;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -16,7 +14,6 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@FixMethodOrder(value = MethodSorters.NAME_ASCENDING)
 @Transactional
 public class UserRepositoryTest {
     @Autowired
@@ -25,7 +22,7 @@ public class UserRepositoryTest {
     private EntityManager entityManager;
 
     @Test
-    public void test1_유저_id로_조회하기() {
+    public void 유저_id로_조회하기() {
         Long id = 1L;
         User user = userRepository.findUserById(id);
 
@@ -33,7 +30,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void test1_2_유저_email로_조회하기() {
+    public void 유저_email로_조회하기() {
         String email = "admin@notice.com";
         User user = userRepository.findUserByEmail(email);
 
@@ -41,7 +38,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void test2_유저_한명_삽입하기() {
+    public void 유저_한명_삽입하기() {
         User user = User.builder().email("user@naver.com")
                 .password("1234")
                 .nickName("김유저").build();
@@ -51,8 +48,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    @Transactional
-    public void test3_유저_한명_정보수정하기() {
+    public void 유저_한명_정보수정하기() {
         Long id = 1L;
         String newNickName = "관리자2";
 
@@ -68,7 +64,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void test4_유저_한명_삭제하기() {
+    public void 유저_한명_삭제하기() {
         List<User> 삭제전List = userRepository.findAll();
 
         userRepository.deleteById(1L);
