@@ -2,10 +2,9 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <script
-            src="https://code.jquery.com/jquery-3.3.1.min.js"
-            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-            crossorigin="anonymous"></script>
+    <script src="/webjars/Semantic-UI/2.4.1/semantic.min.css"></script>
+    <script src="/webjars/Semantic-UI/2.4.1/semantic.min.js"></script>
+    <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
     <title>공지사항</title>
 </head>
 <body>
@@ -36,7 +35,7 @@ Hello
     <hr>
 </div>
 <a th:href="@{/edit}">글쓰기</a>
-</body>
+
 <script>
     function getNoticeContent(noticeId) {
         var attrId = 'content' + noticeId;
@@ -57,4 +56,6 @@ Hello
         });
     }
 </script>
+</body>
+
 </html>

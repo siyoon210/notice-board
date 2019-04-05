@@ -1,9 +1,11 @@
 package me.siyoon.noticeboard.config;
 
 import lombok.RequiredArgsConstructor;
+import me.siyoon.noticeboard.domain.enums.Authority;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/notices", "/users", "/api/**")
                 .permitAll()
-                .antMatchers("/edit").hasRole("USER")
+                .antMatchers("/edit").hasRole(Authority.USER.name())
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -40,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public SpringSecurityDialect springSecurityDialect(){
+    public SpringSecurityDialect springSecurityDialect() {
         return new SpringSecurityDialect();
     }
 }
