@@ -17,6 +17,11 @@ import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
+    public void configure(WebSecurity web) {
+        web.ignoring().antMatchers("/resources/**", "/static/**", "/webjars/**","/**.ico", "/**.jpg", "/**.png");
+    }
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
