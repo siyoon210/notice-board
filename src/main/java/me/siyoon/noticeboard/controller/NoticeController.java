@@ -2,6 +2,7 @@ package me.siyoon.noticeboard.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.siyoon.noticeboard.domain.Notice;
+import me.siyoon.noticeboard.domain.enums.PageSizeLimit;
 import me.siyoon.noticeboard.dto.NoticeForm;
 import me.siyoon.noticeboard.service.NoticeService;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,28 @@ public class NoticeController {
 
         Page<Notice> noticePage = noticeService.getNoticePage(page);
         model.addAttribute("noticePage", noticePage);
+
+        Integer pageCount = PageSizeLimit.NOTICE.getPageCount();
+        Integer pageNumber = noticePage.getNumber();
+
+        Integer startPageNum = (pageNumber / pageCount) * pageCount;
+        Integer pagingLimit = Math.min(startPageNum + pageCount - 1, noticePage.getTotalPages() - 1);
+
+        //기본적인건 됐고 다음 페이지 이전페이지로 이동하는 거 구현해야함
+        Integer previousPaging = null;
+        if (startPageNum - 1 >= 0) {
+            previousPaging = startPageNum - 1;
+        }
+
+        Integer nextPaging = null;
+        if (pagingLimit + 1 <= noticePage.getTotalPages() - 1) {
+            nextPaging = pagingLimit + 1;
+        }
+
+        model.addAttribute("pagingLimit", pagingLimit);
+        model.addAttribute("startPageNum", startPageNum);
+        model.addAttribute("previousPaging", previousPaging);
+        model.addAttribute("nextPaging", nextPaging);
         return "notices";
     }
 

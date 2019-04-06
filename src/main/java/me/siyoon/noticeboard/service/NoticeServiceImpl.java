@@ -5,13 +5,14 @@ import me.siyoon.noticeboard.domain.Notice;
 import me.siyoon.noticeboard.domain.NoticeContent;
 import me.siyoon.noticeboard.domain.User;
 import me.siyoon.noticeboard.domain.enums.Authority;
-import me.siyoon.noticeboard.domain.enums.PageSize;
+import me.siyoon.noticeboard.domain.enums.PageSizeLimit;
 import me.siyoon.noticeboard.dto.NoticeForm;
 import me.siyoon.noticeboard.repository.NoticeRepository;
 import me.siyoon.noticeboard.security.CustomUserDetails;
 import me.siyoon.noticeboard.util.UserDetailsUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +26,9 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     @Transactional(readOnly = true)
     public Page<Notice> getNoticePage(Integer startPage) {
-        PageRequest pageRequest = PageRequest.of(startPage, PageSize.NOTICE.getLimit());
+        PageRequest pageRequest =
+                PageRequest.of(startPage, PageSizeLimit.NOTICE.getContent(),
+                        new Sort(Sort.Direction.DESC, "id"));
 
         return noticeRepository.findNotices(pageRequest);
     }

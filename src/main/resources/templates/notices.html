@@ -25,16 +25,38 @@ Hello
         <button type="submit">삭제</button>
     </form>
     <a th:href="@{'/edit/' + ${notice.id}}">수정</a><br>
-    <button type="button" th:onclick="'getNoticeContent('+${notice.id}+')'">조회</button><br>
+    <button type="button" th:onclick="'getNoticeContent('+${notice.id}+')'">조회</button>
+    <br>
     작성일자) <span th:text="${notice.registerDate}"></span> <br>
     최종 수정일자) <span th:text="${notice.modifyDate}"></span> <br>
     제목) <span th:text="${notice.title}"></span> <br>
-    내용) <span th:text="${notice.noticeContent.content}"></span> <br>
+    id) <span th:text="${notice.id}"></span> <br>
     글쓴이) <span th:text="${notice.user.nickName}"></span> <br>
     <p th:id="'content'+${notice.id}"></p>
     <hr>
 </div>
+
 <a th:href="@{/edit}">글쓰기</a>
+
+<div>
+    <span th:if="${previousPaging != null}">
+        <a th:href="@{/notices(page=0)}">첫페이지</a>
+        <a th:href="@{/notices(page=${previousPaging})}">이전</a>
+    </span>
+
+    <th:block th:each="i: ${#numbers.sequence(startPageNum, pagingLimit)}">
+        <span th:if="${noticePage.number == i}">[[${i}]]</span>
+        <span th:unless="${noticePage.number == i}">
+             <a th:href="@{/notices(page=${i})}">[[${i}]]</a>
+        </span>
+    </th:block>
+
+    <span th:if="${nextPaging != null}">
+        <a th:href="@{/notices(page=${nextPaging})}">다음</a>
+        <a th:href="@{/notices(page=${noticePage.totalPages} - 1)}">끝페이지</a>
+    </span>
+</div>
+
 
 <script>
     function getNoticeContent(noticeId) {
@@ -44,7 +66,7 @@ Hello
             url: "/api/content/" + noticeId,
             type: "GET",
             success: function (content) {
-                $('#'+attrId).text(content);
+                $('#' + attrId).text(content);
             },
             error: function (jqXHR) {
                 if (jqXHR.status === 400) {
