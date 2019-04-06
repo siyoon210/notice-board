@@ -16,6 +16,6 @@ public class NoticeContent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(length = 2000, nullable = false)
     private String content;
 }
