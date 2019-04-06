@@ -39,21 +39,21 @@ Hello
 <a th:href="@{/edit}">글쓰기</a>
 
 <div>
-    <span th:if="${previousPaging != null}">
-        <a th:href="@{/notices(page=0)}">첫페이지</a>
-        <a th:href="@{/notices(page=${previousPaging})}">이전</a>
+    <span th:if="${pageNav.previousPaging != null}">
+        <a th:href="@{/notices(page=1)}">첫페이지</a>
+        <a th:href="@{/notices(page=${pageNav.previousPaging} + 1)}">이전</a>
     </span>
 
-    <th:block th:each="i: ${#numbers.sequence(startPageNum, pagingLimit)}">
-        <span th:if="${noticePage.number == i}">[[${i}]]</span>
+    <th:block th:each="i: ${#numbers.sequence(pageNav.startPageNum, pageNav.lastPageNum)}">
+        <span th:if="${noticePage.number == i}">[[${i}+1]]</span>
         <span th:unless="${noticePage.number == i}">
-             <a th:href="@{/notices(page=${i})}">[[${i}]]</a>
+             <a th:href="@{/notices(page=${i}+1)}">[[${i}+1]]</a>
         </span>
     </th:block>
 
-    <span th:if="${nextPaging != null}">
-        <a th:href="@{/notices(page=${nextPaging})}">다음</a>
-        <a th:href="@{/notices(page=${noticePage.totalPages} - 1)}">끝페이지</a>
+    <span th:if="${pageNav.nextPaging != null}">
+        <a th:href="@{/notices(page=${pageNav.nextPaging} + 1)}">다음</a>
+        <a th:href="@{/notices(page=${noticePage.totalPages})}">끝페이지</a>
     </span>
 </div>
 

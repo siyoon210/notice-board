@@ -2,13 +2,16 @@ package me.siyoon.noticeboard.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.siyoon.noticeboard.domain.Notice;
-import me.siyoon.noticeboard.domain.enums.PageSizeLimit;
+import me.siyoon.noticeboard.domain.enums.PageSize;
 import me.siyoon.noticeboard.dto.NoticeForm;
 import me.siyoon.noticeboard.service.NoticeService;
+import me.siyoon.noticeboard.util.PageNavigationUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -17,33 +20,15 @@ public class NoticeController {
 
     @GetMapping("/notices")
     public String getNoticePage(
-            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
             Model model) {
 
-        Page<Notice> noticePage = noticeService.getNoticePage(page);
+        Page<Notice> noticePage = noticeService.getNoticePage(page - 1);
         model.addAttribute("noticePage", noticePage);
 
-        Integer pageCount = PageSizeLimit.NOTICE.getPageCount();
-        Integer pageNumber = noticePage.getNumber();
+        Map<String, Integer> pageNav = PageNavigationUtil.getNavMap(noticePage, PageSize.NOTICE);
+        model.addAttribute("pageNav", pageNav);
 
-        Integer startPageNum = (pageNumber / pageCount) * pageCount;
-        Integer pagingLimit = Math.min(startPageNum + pageCount - 1, noticePage.getTotalPages() - 1);
-
-        //기본적인건 됐고 다음 페이지 이전페이지로 이동하는 거 구현해야함
-        Integer previousPaging = null;
-        if (startPageNum - 1 >= 0) {
-            previousPaging = startPageNum - 1;
-        }
-
-        Integer nextPaging = null;
-        if (pagingLimit + 1 <= noticePage.getTotalPages() - 1) {
-            nextPaging = pagingLimit + 1;
-        }
-
-        model.addAttribute("pagingLimit", pagingLimit);
-        model.addAttribute("startPageNum", startPageNum);
-        model.addAttribute("previousPaging", previousPaging);
-        model.addAttribute("nextPaging", nextPaging);
         return "notices";
     }
 

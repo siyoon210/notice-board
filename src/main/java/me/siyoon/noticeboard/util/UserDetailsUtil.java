@@ -3,7 +3,7 @@ package me.siyoon.noticeboard.util;
 import me.siyoon.noticeboard.security.CustomUserDetails;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-public class UserDetailsUtil {
+public final class UserDetailsUtil {
     public static CustomUserDetails get(){
         CustomUserDetails userDetails =
                 (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

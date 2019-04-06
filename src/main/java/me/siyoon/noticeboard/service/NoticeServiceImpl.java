@@ -5,7 +5,7 @@ import me.siyoon.noticeboard.domain.Notice;
 import me.siyoon.noticeboard.domain.NoticeContent;
 import me.siyoon.noticeboard.domain.User;
 import me.siyoon.noticeboard.domain.enums.Authority;
-import me.siyoon.noticeboard.domain.enums.PageSizeLimit;
+import me.siyoon.noticeboard.domain.enums.PageSize;
 import me.siyoon.noticeboard.dto.NoticeForm;
 import me.siyoon.noticeboard.repository.NoticeRepository;
 import me.siyoon.noticeboard.security.CustomUserDetails;
@@ -27,7 +27,7 @@ public class NoticeServiceImpl implements NoticeService {
     @Transactional(readOnly = true)
     public Page<Notice> getNoticePage(Integer startPage) {
         PageRequest pageRequest =
-                PageRequest.of(startPage, PageSizeLimit.NOTICE.getContent(),
+                PageRequest.of(startPage, PageSize.NOTICE.getContent(),
                         new Sort(Sort.Direction.DESC, "id"));
 
         return noticeRepository.findNotices(pageRequest);
