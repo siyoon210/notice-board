@@ -1,19 +1,48 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <th:block th:insert="fragments/head :: common"></th:block>
     <title>로그인</title>
 </head>
-<body>
-<form method="POST" th:action="@{/session}">
+<body class="ui grid">
+<div class="ui container middle aligned center aligned grid" style="padding:50px 0px">
+    <div class="eight wide column">
+        <h2 class="ui teal image header">
+            <div class="content" style="color: black">
+                로그인 정보를 입력하세요.
+            </div>
+        </h2>
 
-    <label>이메일 주소</label>
-    <input type="email" name="username" id="inputUsernameEmail" required>
+        <form method="POST" th:action="@{/session}" class="ui large form">
+            <div class="ui stacked segment">
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="envelope icon"></i>
+                        <input type="email" name="username" id="inputUsernameEmail" placeholder="이메일 주소" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="lock icon"></i>
+                        <input type="password" name="password"  id="inputPassword" placeholder="비밀번호" required>
+                    </div>
+                </div>
+                <div class="two fields">
+                    <div class="field">
+                        <button type="submit" class="ui fluid large secondary submit button">로그인</button>
+                    </div>
+                    <div class="field">
+                        <a class="ui fluid large button" style="float:right" th:href="@{'/'}">취소</a>
+                    </div>
+                </div>
+            </div>
+            <div class="ui error message"></div>
+        </form>
 
-    <label>비밀번호</label>
-    <input type="password" name="password" id="inputPassword" required>
-
-    <button type="submit">로그인</button>
-</form>
+        <div class="ui message">
+            로그인 아이디가 없으신가요? <a th:href="@{/users}">회원가입</a>
+        </div>
+    </div>
+</div>
 </body>
 </html>

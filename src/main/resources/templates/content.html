@@ -1,35 +1,31 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta charset="UTF-8">
-    <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
-    <link rel="stylesheet" href="/webjars/Semantic-UI/2.4.1/semantic.min.css">
-    <script src="/webjars/Semantic-UI/2.4.1/semantic.min.js"></script>
+    <th:block th:insert="fragments/head :: common"></th:block>
     <title>공지사항</title>
 </head>
 <body class="ui grid">
 <div class="ui container eleven wide column main-container" style="padding: 50px 0">
-    <div class="ui inverted segment">
-        <div class="ui inverted secondary menu">
-            <a th:href="@{/notices}" class="active item">
-                공지사항
-            </a>
-            <a sec:authorize="hasRole('ROLE_USER')" th:href="@{'/users/'+ ${#authentication.principal.id}}"
-               class="item">
-                내정보
-            </a>
-            <a sec:authorize="!isAuthenticated()" th:href="@{/session}" class="item">
-                로그인
-            </a>
-            <a sec:authorize="!isAuthenticated()" th:href="@{/users}" class="item">
-                회원가입
-            </a>
-            <a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="item">
-                로그아웃
-            </a>
-            <span sec:authorize="isAuthenticated()" sec:authentication="principal.username" class="right item"></span>
-        </div>
+    <div class="ui inverted menu">
+        <a th:href="@{/notices}" class="active item">
+            공지사항
+        </a>
+        <a sec:authorize="hasRole('ROLE_USER')" th:href="@{'/users/'+ ${#authentication.principal.id}}"
+           class="item">
+            내정보
+        </a>
+        <a sec:authorize="!isAuthenticated()" th:href="@{/session}" class="item">
+            로그인
+        </a>
+        <a sec:authorize="!isAuthenticated()" th:href="@{/users}" class="item">
+            회원가입
+        </a>
+        <a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="item">
+            로그아웃
+        </a>
+        <span sec:authorize="isAuthenticated()" sec:authentication="principal.username" class="right item"></span>
     </div>
+
 
     <hr>
     <div class="ui segment">
@@ -57,8 +53,16 @@
             <p th:text="${notice.noticeContent.content}"></p>
         </div>
     </div>
+    <div>
+        <a th:href="@{/edit}" class="right floated ui primary button"><i class="icon edit"></i>글쓰기</a>
 
-    <a th:href="@{/edit}">글쓰기</a>
+        <a th:href="@{'/edit/' + ${notice.id}}" class="left floated ui button">수정</a>
+        <form style="display: inline" th:method="DELETE" th:action="@{'/notices/' + ${notice.id}}">
+            <button type="submit" class="left floated ui red button">삭제</button>
+        </form>
+    </div>
+
+
 </div>
 </body>
 </html>

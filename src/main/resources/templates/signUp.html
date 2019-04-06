@@ -1,16 +1,57 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <th:block th:insert="fragments/head :: common"></th:block>
     <title>회원가입</title>
 </head>
-<body>
-Hello
-<form method="POST" th:action="@{/users}">
-    email <input type="email" name="email" required> <br>
-    password <input type="password" name="password" required> <br>
-    닉네임 <input type="text" name="nickName" required> <br>
-    <button type="submit">회원가입</button>
-</form>
+<body class="ui grid">
+<div class="ui container middle aligned center aligned grid" style="padding:50px 0px">
+    <div class="ten wide column">
+        <h2 class="ui teal image header">
+            <div class="content" style="color: black">
+                회원가입 정보를 입력하세요.
+            </div>
+        </h2>
+        <form th:action="@{/users}" class="ui large form" method="post">
+            <div class="ui stacked segment">
+                <div class="field">
+                    <label style="float:left">이메일 주소</label>
+                    <div class="ui left icon input">
+                        <i class="envelope icon"></i><input type="email" name="email" placeholder="이메일 주소">
+                    </div>
+                </div>
+                <div class="two fields">
+                    <div class="field">
+                        <label style="float:left">비밀번호</label>
+                        <div class="ui left icon input">
+                            <i class="lock icon"></i><input type="password" placeholder="비밀번호" name="password">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label style="float:left">비밀번호 확인</label>
+                        <div class="ui left icon input">
+                            <i class="lock icon"></i> <input type="password" placeholder="비밀번호 확인" name="passwordCheck">
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label style="float:left">닉네임</label>
+                    <div class="ui left icon input">
+                        <i class="user icon"></i><input type="text" placeholder="닉네임" name="nickName">
+                    </div>
+                </div>
+                <div class="two fields">
+                    <div class="field">
+                        <button class="ui fluid large secondary submit button" type="submit">회원가입</button>
+                    </div>
+                    <div class="field">
+                        <a class="ui fluid large button" style="float:right" href="/">취소</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 </body>
 </html>

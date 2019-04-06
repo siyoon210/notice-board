@@ -1,35 +1,27 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta charset="UTF-8">
-    <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
-    <link rel="stylesheet" href="/webjars/Semantic-UI/2.4.1/semantic.min.css">
-    <script src="/webjars/Semantic-UI/2.4.1/semantic.min.js"></script>
+    <th:block th:insert="fragments/head :: common"></th:block>
     <title>공지사항</title>
 </head>
 <body class="ui grid">
 <div class="ui container eleven wide column main-container" style="padding: 50px 0">
-    <div class="ui inverted segment">
-        <div class="ui inverted secondary menu">
-            <a th:href="@{/notices}" class="active item">
-                공지사항
-            </a>
-            <a sec:authorize="hasRole('ROLE_USER')" th:href="@{'/users/'+ ${#authentication.principal.id}}"
-               class="item">
-                내정보
-            </a>
-            <a sec:authorize="!isAuthenticated()" th:href="@{/session}" class="item">
-                로그인
-            </a>
-            <a sec:authorize="!isAuthenticated()" th:href="@{/users}" class="item">
-                회원가입
-            </a>
-            <a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="item">
-                로그아웃
-            </a>
-            <span sec:authorize="isAuthenticated()" sec:authentication="principal.username" class="right item"></span>
-        </div>
+    <div class="ui inverted menu">
+        <a th:href="@{/notices}" class="active item">
+            공지사항
+        </a>
+        <a sec:authorize="!isAuthenticated()" th:href="@{/session}" class="item">
+            로그인
+        </a>
+        <a sec:authorize="!isAuthenticated()" th:href="@{/users}" class="item">
+            회원가입
+        </a>
+        <a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="item">
+            로그아웃
+        </a>
+        <span sec:authorize="isAuthenticated()" sec:authentication="principal.username" class="right item"></span>
     </div>
+
 
     <table class="ui selectable black striped celled padded table">
         <thead>
@@ -51,49 +43,36 @@
         </tr>
         </tbody>
     </table>
-
-    <div id="content" class="ui modal"></div>
-
-    <!--    <div th:each="notice : ${noticePage.content}">-->
-    <!--        <div class="ui message" style="margin-bottom: 0.1em">-->
-    <!--            <div class="header">-->
-
-    <!--            </div>-->
-    <!--            <div>-->
-    <!--                <span th:text="${notice.id}"></span>-->
-    <!--                <span th:text="${notice.user.nickName}"></span>-->
-    <!--                <span th:text="${notice.registerDate}"></span>-->
-    <!--                <a th:href="@{'/edit/' + ${notice.id}}">수정</a>-->
-    <!--                <form style="display: inline" th:method="DELETE" th:action="@{'/notices/' + ${notice.id}}">-->
-    <!--                    <button type="submit">삭제</button>-->
-    <!--                </form>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--        <div th:id="'content'+${notice.id}"></div>-->
-    <!--    </div>-->
-
-    <a th:href="@{/edit}">글쓰기</a>
-
-    <!--페이징-->
     <div>
-        <span th:if="${pageNav.previousPaging != null}">
-            <a th:href="@{/notices(page=1)}">첫페이지</a>
-            <a th:href="@{/notices(page=${pageNav.previousPaging} + 1)}">이전</a>
-        </span>
+        <a th:href="@{/edit}" class="right floated ui primary button"><i class="icon edit"></i>글쓰기</a>
+    </div>
 
-        <th:block th:each="i: ${#numbers.sequence(pageNav.startPageNum, pageNav.lastPageNum)}">
-            <span th:if="${noticePage.number == i}">[[${i}+1]]</span>
-            <span th:unless="${noticePage.number == i}">
-             <a th:href="@{/notices(page=${i}+1)}">[[${i}+1]]</a>
-            </span>
+    <div class="ui pagination menu">
+        <th:block th:if="${pageNav.previousPaging != null}">
+            <div class="item">
+                <a th:href="@{/notices(page=1)}">첫페이지</a>
+            </div>
+            <div class="item">
+                <a th:href="@{/notices(page=${pageNav.previousPaging} + 1)}"><i class="angle double left icon"></i></a>
+            </div>
         </th:block>
 
-        <span th:if="${pageNav.nextPaging != null}">
-            <a th:href="@{/notices(page=${pageNav.nextPaging} + 1)}">다음</a>
-            <a th:href="@{/notices(page=${noticePage.totalPages})}">끝페이지</a>
-        </span>
+        <th:block th:each="i: ${#numbers.sequence(pageNav.startPageNum, pageNav.lastPageNum)}">
+            <div th:if="${noticePage.number == i}" class="active item">[[${i}+1]]</div>
+            <div th:unless="${noticePage.number == i}" class="item">
+                <a th:href="@{/notices(page=${i}+1)}">[[${i}+1]]</a>
+            </div>
+        </th:block>
+
+        <th:block th:if="${pageNav.nextPaging != null}">
+            <div class="item">
+                <a th:href="@{/notices(page=${pageNav.nextPaging} + 1)}"><i class="angle double right icon"></i></a>
+            </div>
+            <div class="item">
+                <a th:href="@{/notices(page=${noticePage.totalPages})}">끝페이지</a>
+            </div>
+        </th:block>
     </div>
-    <!--페이징 끝-->
 </div>
 </body>
 </html>

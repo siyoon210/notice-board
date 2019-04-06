@@ -1,20 +1,39 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <th:block th:insert="fragments/head :: common"></th:block>
     <title>글 작성하기</title>
 </head>
-<body th:with="isPost=${notice} == null ? true : false">
-<form th:method="${isPost} ? 'POST' : 'PUT'" th:action="@{/notices}">
+<body class="ui gird" th:with="isPost=${notice} == null ? true : false">
+<div class="ui container twelve wide column" style="padding:50px 0px">
+    <form th:method="${isPost} ? 'POST' : 'PUT'" th:action="@{/notices}" class="ui form">
+        <div class="ten wide column ui segment">
 
-    <label>제목</label>
-    <input type="text" name="title" th:value="${isPost} ? '' : ${notice.title}" required>
-
-    <label>내용</label>
-    <input type="text" name="content" th:value="${isPost} ? '' : ${notice.noticeContent.content}" required>
-
-    <input type="hidden" name="id" th:value="${isPost} ? '' : ${notice.id}"/>
-    <button type="submit">글쓰기</button>
-</form>
+            <div class="ui equal width form">
+                <div class="field">
+                    <label>제목</label>
+                    <input type="text" name="title" placeholder="제목을 입력해주세요."
+                           th:value="${isPost} ? '' : ${notice.title}"
+                           required>
+                </div>
+                <div class="field">
+                    <label>내용</label>
+                    <textarea type="text" name="content" th:text="${isPost} ? '' : ${notice.noticeContent.content}"
+                              required></textarea>
+                </div>
+                <input type="hidden" name="id" th:value="${isPost} ? '' : ${notice.id}"/>
+            </div>
+        </div>
+        <div>
+            <button type="submit" class="right floated ui primary button">
+                <i class="icon edit"></i>
+                등록
+            </button>
+            <a th:href="@{/notices}" class="right floated ui button">
+                취소
+            </a>
+        </div>
+    </form>
+</div>
 </body>
 </html>
