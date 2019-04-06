@@ -32,6 +32,13 @@ public class NoticeController {
         return "notices";
     }
 
+    @GetMapping("/notices/{id}")
+    public String getNotice(@PathVariable(value = "id") Long id, Model model) {
+        Notice notice = noticeService.getNotice(id);
+        model.addAttribute("notice", notice);
+        return "content";
+    }
+
     @PostMapping("/notices")
     public String addNotice(@ModelAttribute NoticeForm noticeForm) {
         noticeService.addNotice(noticeForm);

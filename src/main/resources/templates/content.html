@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
+    <link rel="stylesheet" href="/webjars/Semantic-UI/2.4.1/semantic.min.css">
+    <script src="/webjars/Semantic-UI/2.4.1/semantic.min.js"></script>
+    <title>공지사항</title>
+</head>
+<body class="ui grid">
+<div class="ui container eleven wide column main-container" style="padding: 50px 0">
+    <div class="ui inverted segment">
+        <div class="ui inverted secondary menu">
+            <a th:href="@{/notices}" class="active item">
+                공지사항
+            </a>
+            <a sec:authorize="hasRole('ROLE_USER')" th:href="@{'/users/'+ ${#authentication.principal.id}}"
+               class="item">
+                내정보
+            </a>
+            <a sec:authorize="!isAuthenticated()" th:href="@{/session}" class="item">
+                로그인
+            </a>
+            <a sec:authorize="!isAuthenticated()" th:href="@{/users}" class="item">
+                회원가입
+            </a>
+            <a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="item">
+                로그아웃
+            </a>
+            <span sec:authorize="isAuthenticated()" sec:authentication="principal.username" class="right item"></span>
+        </div>
+    </div>
+
+    <hr>
+    <div class="ui segment">
+        <div class="ui comments">
+            <div class="comment">
+                <div class="content">
+                    <a class="author" th:text="'글쓴이 : '+${notice.user.nickName}"></a>
+                    <div class="metadata">
+                        <div class="date" th:text="'작성일 : '+${notice.registerDate}"></div>
+                        <div class="date" th:text="'최종 수정일 : '+${notice.registerDate}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui clearing divider"></div>
+
+        <div class="ui message">
+            <div class="header">
+                <p th:text="${notice.title}"></p>
+            </div>
+        </div>
+
+        <div class="ui message" style="min-height: 150px">
+            <p th:text="${notice.noticeContent.content}"></p>
+        </div>
+    </div>
+
+    <a th:href="@{/edit}">글쓰기</a>
+</div>
+</body>
+</html>

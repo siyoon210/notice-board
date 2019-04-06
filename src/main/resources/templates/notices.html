@@ -7,77 +7,93 @@
     <script src="/webjars/Semantic-UI/2.4.1/semantic.min.js"></script>
     <title>공지사항</title>
 </head>
-<body>
-Hello
-<ul>
-    <li sec:authorize="isAuthenticated()"><span sec:authentication="principal.username"></span></li>
-    <li><a th:href="@{/notices}">공지사항</a></li>
-    <li sec:authorize="hasRole('ROLE_USER')">
-        <a th:href="@{'/users/'+ ${#authentication.principal.id}}">내정보</a>
-    </li>
-    <li sec:authorize="!isAuthenticated()"><a th:href="@{/users}">회원가입</a></li>
-    <li sec:authorize="!isAuthenticated()"><a th:href="@{/session}">로그인</a></li>
-    <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">로그아웃</a></li>
-</ul>
+<body class="ui grid">
+<div class="ui container eleven wide column main-container" style="padding: 50px 0">
+    <div class="ui inverted segment">
+        <div class="ui inverted secondary menu">
+            <a th:href="@{/notices}" class="active item">
+                공지사항
+            </a>
+            <a sec:authorize="hasRole('ROLE_USER')" th:href="@{'/users/'+ ${#authentication.principal.id}}"
+               class="item">
+                내정보
+            </a>
+            <a sec:authorize="!isAuthenticated()" th:href="@{/session}" class="item">
+                로그인
+            </a>
+            <a sec:authorize="!isAuthenticated()" th:href="@{/users}" class="item">
+                회원가입
+            </a>
+            <a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="item">
+                로그아웃
+            </a>
+            <span sec:authorize="isAuthenticated()" sec:authentication="principal.username" class="right item"></span>
+        </div>
+    </div>
 
-<div th:each="notice : ${noticePage.content}">
-    <form th:method="DELETE" th:action="@{'/notices/' + ${notice.id}}">
-        <button type="submit">삭제</button>
-    </form>
-    <a th:href="@{'/edit/' + ${notice.id}}">수정</a><br>
-    <button type="button" th:onclick="'getNoticeContent('+${notice.id}+')'">조회</button>
-    <br>
-    작성일자) <span th:text="${notice.registerDate}"></span> <br>
-    최종 수정일자) <span th:text="${notice.modifyDate}"></span> <br>
-    제목) <span th:text="${notice.title}"></span> <br>
-    id) <span th:text="${notice.id}"></span> <br>
-    글쓴이) <span th:text="${notice.user.nickName}"></span> <br>
-    <p th:id="'content'+${notice.id}"></p>
-    <hr>
-</div>
+    <table class="ui selectable black striped celled padded table">
+        <thead>
+        <tr>
+            <th class="one wide center aligned">번호</th>
+            <th class="ten wide center aligned">제목</th>
+            <th class="two wide center aligned">글쓴이</th>
+            <th class="three wide center aligned">작성일자</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="notice : ${noticePage.content}">
+            <td th:text="${notice.id}" class="center aligned"></td>
+            <td class="center aligned">
+                <a th:href="@{'/notices/'+${notice.id}}" th:text="${notice.title}"></a>
+            </td>
+            <td th:text="${notice.user.nickName}" class="center aligned"></td>
+            <td th:text="${notice.registerDate}" class="center aligned"></td>
+        </tr>
+        </tbody>
+    </table>
 
-<a th:href="@{/edit}">글쓰기</a>
+    <div id="content" class="ui modal"></div>
 
-<div>
-    <span th:if="${pageNav.previousPaging != null}">
-        <a th:href="@{/notices(page=1)}">첫페이지</a>
-        <a th:href="@{/notices(page=${pageNav.previousPaging} + 1)}">이전</a>
-    </span>
+    <!--    <div th:each="notice : ${noticePage.content}">-->
+    <!--        <div class="ui message" style="margin-bottom: 0.1em">-->
+    <!--            <div class="header">-->
 
-    <th:block th:each="i: ${#numbers.sequence(pageNav.startPageNum, pageNav.lastPageNum)}">
-        <span th:if="${noticePage.number == i}">[[${i}+1]]</span>
-        <span th:unless="${noticePage.number == i}">
-             <a th:href="@{/notices(page=${i}+1)}">[[${i}+1]]</a>
+    <!--            </div>-->
+    <!--            <div>-->
+    <!--                <span th:text="${notice.id}"></span>-->
+    <!--                <span th:text="${notice.user.nickName}"></span>-->
+    <!--                <span th:text="${notice.registerDate}"></span>-->
+    <!--                <a th:href="@{'/edit/' + ${notice.id}}">수정</a>-->
+    <!--                <form style="display: inline" th:method="DELETE" th:action="@{'/notices/' + ${notice.id}}">-->
+    <!--                    <button type="submit">삭제</button>-->
+    <!--                </form>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <div th:id="'content'+${notice.id}"></div>-->
+    <!--    </div>-->
+
+    <a th:href="@{/edit}">글쓰기</a>
+
+    <!--페이징-->
+    <div>
+        <span th:if="${pageNav.previousPaging != null}">
+            <a th:href="@{/notices(page=1)}">첫페이지</a>
+            <a th:href="@{/notices(page=${pageNav.previousPaging} + 1)}">이전</a>
         </span>
-    </th:block>
 
-    <span th:if="${pageNav.nextPaging != null}">
-        <a th:href="@{/notices(page=${pageNav.nextPaging} + 1)}">다음</a>
-        <a th:href="@{/notices(page=${noticePage.totalPages})}">끝페이지</a>
-    </span>
+        <th:block th:each="i: ${#numbers.sequence(pageNav.startPageNum, pageNav.lastPageNum)}">
+            <span th:if="${noticePage.number == i}">[[${i}+1]]</span>
+            <span th:unless="${noticePage.number == i}">
+             <a th:href="@{/notices(page=${i}+1)}">[[${i}+1]]</a>
+            </span>
+        </th:block>
+
+        <span th:if="${pageNav.nextPaging != null}">
+            <a th:href="@{/notices(page=${pageNav.nextPaging} + 1)}">다음</a>
+            <a th:href="@{/notices(page=${noticePage.totalPages})}">끝페이지</a>
+        </span>
+    </div>
+    <!--페이징 끝-->
 </div>
-
-
-<script>
-    function getNoticeContent(noticeId) {
-        var attrId = 'content' + noticeId;
-
-        $.ajax({
-            url: "/api/content/" + noticeId,
-            type: "GET",
-            success: function (content) {
-                $('#' + attrId).text(content);
-            },
-            error: function (jqXHR) {
-                if (jqXHR.status === 400) {
-                    alert("id값이 올바르지 않습니다.");
-                } else if (jqXHR.status === 500) {
-                    alert("서버의 문제가 발생했습니다.");
-                }
-            }
-        });
-    }
-</script>
 </body>
-
 </html>
