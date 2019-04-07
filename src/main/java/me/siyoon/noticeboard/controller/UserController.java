@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Controller
 @RequestMapping("/users")
 @RequiredArgsConstructor
@@ -23,7 +25,7 @@ public class UserController {
     }
 
     @PostMapping
-    public String signUp(@ModelAttribute UserForm userForm) {
+    public String signUp(@Valid @ModelAttribute UserForm userForm) {
         userService.signUp(userForm);
         return "redirect:/session";
     }

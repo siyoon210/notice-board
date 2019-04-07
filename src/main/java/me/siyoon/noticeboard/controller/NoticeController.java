@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Map;
 
 @Controller
@@ -40,7 +41,7 @@ public class NoticeController {
     }
 
     @PostMapping("/notices")
-    public String addNotice(@ModelAttribute NoticeForm noticeForm) {
+    public String addNotice(@Valid @ModelAttribute NoticeForm noticeForm) {
         noticeService.addNotice(noticeForm);
         return "redirect:/notices";
     }
@@ -52,7 +53,7 @@ public class NoticeController {
     }
 
     @PutMapping("/notices")
-    public String modifyNotice(@ModelAttribute NoticeForm noticeForm) {
+    public String modifyNotice(@Valid @ModelAttribute NoticeForm noticeForm) {
         noticeService.modifyNotice(noticeForm);
         return "redirect:/notices";
     }

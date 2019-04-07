@@ -22,7 +22,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(length = 10, nullable = false, unique = true)
+    @Column(length = 12, nullable = false, unique = true)
     private String nickName;
 
     @ManyToMany
