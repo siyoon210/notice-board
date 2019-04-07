@@ -2,15 +2,17 @@ package me.siyoon.noticeboard.service;
 
 import me.siyoon.noticeboard.domain.Notice;
 import me.siyoon.noticeboard.dto.NoticeForm;
-import me.siyoon.noticeboard.repository.NoticeRepository;
 import org.junit.Assert;
-import org.junit.FixMethodOrder;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +26,16 @@ public class NoticeServiceTest {
     private NoticeService noticeService;
     @Autowired
     private EntityManager entityManager;
+    @Autowired
+    private me.siyoon.noticeboard.security.UserDetailServiceImpl userDetailServiceImpl;
+
+    @Before
+    public void 스프링컨텍스트_셋팅() {
+        UserDetails userDetails = userDetailServiceImpl.loadUserByUsername("admin@notice.com");
+        Authentication auth = new UsernamePasswordAuthenticationToken(userDetails,null);
+
+        SecurityContextHolder.getContext().setAuthentication(auth);
+    }
 
     @Test
     public void 공지_한건_인덱스ID로_조회하기() {
