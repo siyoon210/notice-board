@@ -72,7 +72,8 @@ public class NoticeServiceImpl implements NoticeService {
             return notice;
         }
 
-        throw new AuthenticationServiceException("수정 권한 없음");
+        throw new AuthenticationServiceException("수정 권한 없음 " +
+                ":" + notice.getId());
     }
 
     private NoticeContent modifyNoticeContent(NoticeForm noticeForm, Notice notice) {
@@ -88,7 +89,7 @@ public class NoticeServiceImpl implements NoticeService {
             return;
         }
 
-        throw new AuthenticationServiceException("삭제 권한 없음");
+        throw new AuthenticationServiceException("삭제 권한 없음 :" + id);
     }
 
     private boolean isValidAuthority(Long noticeId) {

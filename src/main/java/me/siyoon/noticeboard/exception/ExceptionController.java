@@ -29,11 +29,17 @@ public class ExceptionController {
     }
 
     @ExceptionHandler(AuthenticationServiceException.class)
-    public String handleAuthenticationException(HttpServletRequest request) {
-        return "redirect:" + request.getRequestURL().toString() + "?auth-error=true";
+    public String handleAuthenticationException(AuthenticationException e) {
+        String noticeId = getNoticeIdFromErrMessage(e);
+        return "redirect:/notices/" + noticeId + "?auth-error=true";
     }
 
-    @ExceptionHandler({BindException.class, IllegalArgumentException.class, IllegalStateException.class})
+    private String getNoticeIdFromErrMessage(AuthenticationException e) {
+        String errMessage = e.getMessage();
+        return errMessage.substring(errMessage.lastIndexOf(":") + 1);
+    }
+
+    @ExceptionHandler({BindException.class, IllegalArgumentException.class})
     public String handleBindException(RuntimeException e) {
         return "redirect:users" + "?form-error=" + e.getMessage();
     }

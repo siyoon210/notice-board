@@ -75,28 +75,4 @@
     </div>
 </div>
 </body>
-<script>
-    var urlParams;
-    (window.onpopstate = function () {
-        var match,
-            pl = /\+/g,  // Regex for replacing addition symbol with a space
-            search = /([^&=]+)=?([^&]*)/g,
-            decode = function (s) {
-                return decodeURIComponent(s.replace(pl, " "));
-            },
-            query = window.location.search.substring(1);
-
-        urlParams = {};
-        while (match = search.exec(query))
-            urlParams[decode(match[1])] = decode(match[2]);
-
-        checkAuthError();
-    })();
-
-    function checkAuthError() {
-        if (urlParams["auth-error"]) {
-            alert("권한이 없습니다.")
-        }
-    }
-</script>
 </html>
