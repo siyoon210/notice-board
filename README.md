@@ -8,6 +8,9 @@ notice board : 공지사항 게시판
 - data.sql에 샘플데이터가 들어가있습니다. 페이징처리를 보여드리기 위한 충분한 게시글이 있고, ADMIN 계정이 들어갑니다. 
 - ADMIN 계정으로 접속을 원하시면 admin@notice.com 이메일을 사용하고 비밀번호는 1234 입니다.
 
+# ERD
+![erd](./docs/img/erd.png)
+
 # 시연화면
 ![notice-list](./docs/img/notice-list.jpg)
 ![notice](./docs/img/notice.jpg)
