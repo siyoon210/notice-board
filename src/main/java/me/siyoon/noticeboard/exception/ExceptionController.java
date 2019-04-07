@@ -1,6 +1,7 @@
 package me.siyoon.noticeboard.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
@@ -10,22 +11,16 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.thymeleaf.exceptions.TemplateInputException;
 
-import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 
 @ControllerAdvice
 @Slf4j
 public class ExceptionController {
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public String handleSignUpDuplicateException(DataIntegrityViolationException e, Model model) {
-        String duplicationStr = getDuplicationStr(e);
-        model.addAttribute("duplicationStr", duplicationStr);
+    @ExceptionHandler(DuplicateUserInfo.class)
+    public String handleSignUpDuplicateException(DuplicateUserInfo e, Model model) {
+        model.addAttribute("user", e.getUser());
+        model.addAttribute("duplicationStr", e.getDuplicationStr());
         return "signUp";
-    }
-
-    private String getDuplicationStr(DataIntegrityViolationException e) {
-        String message = e.getCause().getCause().getMessage();
-        return message.substring(29, message.indexOf("' for key '"));
     }
 
     @ExceptionHandler(AuthenticationServiceException.class)
@@ -37,11 +32,6 @@ public class ExceptionController {
     private String getNoticeIdFromErrMessage(AuthenticationException e) {
         String errMessage = e.getMessage();
         return errMessage.substring(errMessage.lastIndexOf(":") + 1);
-    }
-
-    @ExceptionHandler({BindException.class, IllegalArgumentException.class})
-    public String handleBindException(RuntimeException e) {
-        return "redirect:users" + "?form-error=" + e.getMessage();
     }
 
     @ExceptionHandler({SQLException.class, TemplateInputException.class})

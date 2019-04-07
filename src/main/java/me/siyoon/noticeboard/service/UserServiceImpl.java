@@ -5,6 +5,7 @@ import me.siyoon.noticeboard.domain.Role;
 import me.siyoon.noticeboard.domain.User;
 import me.siyoon.noticeboard.domain.enums.Authority;
 import me.siyoon.noticeboard.dto.UserForm;
+import me.siyoon.noticeboard.exception.DuplicateUserInfo;
 import me.siyoon.noticeboard.repository.RoleRepository;
 import me.siyoon.noticeboard.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,7 +17,7 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
@@ -37,6 +38,7 @@ public class UserServiceImpl implements UserService{
     @Transactional
     public User signUp(UserForm userForm) {
         User user = convertFormToUser(userForm);
+        checkDuplication(user);
         encodePassword(user);
         setRoles(user);
 
@@ -49,6 +51,16 @@ public class UserServiceImpl implements UserService{
                 .nickName(userForm.getNickName())
                 .password(userForm.getPassword())
                 .build();
+    }
+
+    private void checkDuplication(User user) {
+        if (userRepository.findUserByEmail(user.getEmail()) != null) {
+            throw new DuplicateUserInfo(user, user.getEmail());
+        }
+
+        if (userRepository.findUserByNickName(user.getNickName()) != null) {
+            throw new DuplicateUserInfo(user, user.getNickName());
+        }
     }
 
     private void encodePassword(User user) {
