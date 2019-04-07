@@ -15,8 +15,11 @@
             </div>
         </h2>
         <form th:action="@{/users}" id="userForm" class="ui large form" th:method="POST" onsubmit="return checkForm();">
-
-
+            <div th:if="${duplicationStr != null}" class="ui tiny negative message">
+                <i class="close icon"></i>
+                <div class="header">이미 사용 중인 값입니다.</div>
+                <p th:text="${duplicationStr}"></p>
+            </div>
             <div class="ui stacked segment">
                 <div class="field">
                     <label style="float:left">이메일 주소</label>
