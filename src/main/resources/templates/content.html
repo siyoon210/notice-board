@@ -10,10 +10,6 @@
         <a th:href="@{/notices}" class="active item">
             공지사항
         </a>
-        <a sec:authorize="hasRole('ROLE_USER')" th:href="@{'/users/'+ ${#authentication.principal.id}}"
-           class="item">
-            내정보
-        </a>
         <a sec:authorize="!isAuthenticated()" th:href="@{/session}" class="item">
             로그인
         </a>
@@ -54,15 +50,12 @@
         </div>
     </div>
     <div>
-        <a th:href="@{/edit}" class="right floated ui primary button"><i class="icon edit"></i>글쓰기</a>
-
-        <a th:href="@{'/edit/' + ${notice.id}}" class="left floated ui button">수정</a>
-        <form style="display: inline" th:method="DELETE" th:action="@{'/notices/' + ${notice.id}}">
-            <button type="submit" class="left floated ui red button">삭제</button>
+        <form style="display: inline" th:method="DELETE" th:action="@{'/notices/' + ${notice.id}}"
+              onsubmit="return confirm('정말 삭제하시겠습니까?');">
+            <button type="submit" class="right floated ui red button">삭제</button>
         </form>
+        <a th:href="@{'/edit/' + ${notice.id}}" class="right floated ui button">수정</a>
     </div>
-
-
 </div>
 </body>
 </html>
