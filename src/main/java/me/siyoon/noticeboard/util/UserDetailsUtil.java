@@ -8,11 +8,6 @@ public final class UserDetailsUtil {
         CustomUserDetails userDetails =
                 (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        // TODO throws principal null
-//        if (userDetails == null) {
-//            throw new DisabledException("Fail to load principal from SecurityContextHolder");
-//        }
-
         return userDetails;
     }
 }

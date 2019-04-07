@@ -70,8 +70,6 @@ public class NoticeServiceImpl implements NoticeService {
             notice.setNoticeContent(modifyNoticeContent(noticeForm, notice));
         }
 
-        //TODO thorws 권한 없음 익셉션
-
         return notice;
     }
 
@@ -85,10 +83,7 @@ public class NoticeServiceImpl implements NoticeService {
     public void deleteNotice(Long id) {
         if (isValidAuthority(id)) {
             noticeRepository.deleteById(id);
-            return;
         }
-
-        // TODO 권한검사 throw InValid Autohority
     }
 
     private boolean isValidAuthority(Long noticeId) {

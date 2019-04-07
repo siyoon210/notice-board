@@ -24,23 +24,13 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional(readOnly = true)
     public User getUser(String email) {
-        User user = userRepository.findUserByEmail(email);
-        validateUser(user);
-        return user;
+        return userRepository.findUserByEmail(email);
     }
 
     @Override
     @Transactional(readOnly = true)
     public User getUser(Long id) {
-        User user = userRepository.findUserById(id);
-        validateUser(user);
-        return user;
-    }
-
-    private void validateUser(User user) {
-        if (user == null) {
-            throw new IllegalArgumentException("User 조회 실패");
-        }
+        return userRepository.findUserById(id);
     }
 
     @Override
