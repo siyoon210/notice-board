@@ -42,15 +42,17 @@ public class ExceptionController {
     @ExceptionHandler(Error.class)
     public String handleError(Error error, Model model) {
         log.warn(error.getMessage());
-        model.addAttribute(error.getClass().getName(), error.getMessage());
+        model.addAttribute("errMessage", error.getMessage());
         return "error";
     }
 
     @ExceptionHandler(Exception.class)
-    public void handleUnexpectedExceptions(Exception e) {
+    public String handleUnexpectedExceptions(Exception e, Model model) {
         log.warn("예상치 못한 예외 발생 : " + e.getMessage() + "-" + e.getClass().getName());
         for (StackTraceElement stackTraceElement : e.getStackTrace()) {
             log.warn(stackTraceElement.toString());
         }
+        model.addAttribute("errMessage", e.getMessage());
+        return "error";
     }
 }
