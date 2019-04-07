@@ -1,6 +1,5 @@
 package me.siyoon.noticeboard.config;
 
-import lombok.RequiredArgsConstructor;
 import me.siyoon.noticeboard.domain.enums.Authority;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
