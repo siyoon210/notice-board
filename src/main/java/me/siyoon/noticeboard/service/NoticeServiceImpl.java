@@ -13,6 +13,7 @@ import me.siyoon.noticeboard.util.UserDetailsUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -68,9 +69,10 @@ public class NoticeServiceImpl implements NoticeService {
         if (isValidAuthority(notice.getId())) {
             notice.setTitle(noticeForm.getTitle());
             notice.setNoticeContent(modifyNoticeContent(noticeForm, notice));
+            return notice;
         }
 
-        return notice;
+        throw new AuthenticationServiceException("수정 권한 없음");
     }
 
     private NoticeContent modifyNoticeContent(NoticeForm noticeForm, Notice notice) {
@@ -83,7 +85,10 @@ public class NoticeServiceImpl implements NoticeService {
     public void deleteNotice(Long id) {
         if (isValidAuthority(id)) {
             noticeRepository.deleteById(id);
+            return;
         }
+
+        throw new AuthenticationServiceException("삭제 권한 없음");
     }
 
     private boolean isValidAuthority(Long noticeId) {

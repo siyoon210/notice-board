@@ -2,21 +2,22 @@ package me.siyoon.noticeboard.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.thymeleaf.exceptions.TemplateInputException;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 
 @ControllerAdvice
 @Slf4j
 public class ExceptionController {
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public String handleSignUpDuplicateException(DataIntegrityViolationException e,Model model) {
+    public String handleSignUpDuplicateException(DataIntegrityViolationException e, Model model) {
         String duplicationStr = getDuplicationStr(e);
         model.addAttribute("duplicationStr", duplicationStr);
         return "signUp";
@@ -27,8 +28,18 @@ public class ExceptionController {
         return message.substring(29, message.indexOf("' for key '"));
     }
 
-    @ExceptionHandler({BindException.class, SQLException.class, TemplateInputException.class})
-    public void handleExpectedException (RuntimeException  e) {
+    @ExceptionHandler(AuthenticationServiceException.class)
+    public String handleAuthenticationException(HttpServletRequest request) {
+        return "redirect:" + request.getRequestURL().toString() + "?auth-error=true";
+    }
+
+    @ExceptionHandler({BindException.class, IllegalArgumentException.class, IllegalStateException.class})
+    public String handleBindException(RuntimeException e) {
+        return "redirect:users" + "?form-error=" + e.getMessage();
+    }
+
+    @ExceptionHandler({SQLException.class, TemplateInputException.class})
+    public void handleExpectedException(RuntimeException e) {
         log.warn(e.getClass().getName() + " : " + e.getMessage());
     }
 

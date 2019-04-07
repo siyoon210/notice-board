@@ -29,6 +29,6 @@ public class UserController {
     @PostMapping
     public String signUp(@Valid @ModelAttribute UserForm userForm) {
         userService.signUp(userForm);
-        return "redirect:/notices";
+        return "redirect:/session";
     }
 }

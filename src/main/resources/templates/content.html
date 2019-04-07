@@ -50,6 +50,7 @@
         </div>
     </div>
     <div>
+        <button id="back" class="left floated ui button">이전으로</button>
         <form style="display: inline" th:method="DELETE" th:action="@{'/notices/' + ${notice.id}}"
               onsubmit="return confirm('정말 삭제하시겠습니까?');">
             <button type="submit" class="right floated ui red button">삭제</button>
@@ -58,4 +59,32 @@
     </div>
 </div>
 </body>
+<script>
+    $("#back").click(function () {
+        window.history.back();
+    });
+
+    var urlParams;
+    (window.onpopstate = function () {
+        var match,
+            pl = /\+/g,  // Regex for replacing addition symbol with a space
+            search = /([^&=]+)=?([^&]*)/g,
+            decode = function (s) {
+                return decodeURIComponent(s.replace(pl, " "));
+            },
+            query = window.location.search.substring(1);
+
+        urlParams = {};
+        while (match = search.exec(query))
+            urlParams[decode(match[1])] = decode(match[2]);
+
+        checkAuthError();
+    })();
+
+    function checkAuthError() {
+        if (urlParams["auth-error"]) {
+            alert("권한이 없습니다.")
+        }
+    }
+</script>
 </html>
