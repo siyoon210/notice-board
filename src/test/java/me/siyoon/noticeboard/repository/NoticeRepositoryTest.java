@@ -2,6 +2,7 @@ package me.siyoon.noticeboard.repository;
 
 import me.siyoon.noticeboard.domain.Notice;
 import me.siyoon.noticeboard.domain.NoticeContent;
+import me.siyoon.noticeboard.domain.enums.PageSize;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @RunWith(SpringRunner.class)
@@ -30,13 +30,11 @@ public class NoticeRepositoryTest {
 
     @Test
     public void 공지사항_목록_한페이지_불러오기() {
-        // TODO 아 좀 이상해 구려
-        PageRequest of = PageRequest.of(0, 10);
+        PageRequest of = PageRequest.of(0, PageSize.NOTICE.getContent());
 
         Page<Notice> notices = noticeRepository.findNotices(of);
-        List<Notice> collect = notices.get().collect(Collectors.toList());
 
-        Assert.assertEquals(collect.size(), 1);
+        Assert.assertEquals(PageSize.NOTICE.getContent(), Integer.valueOf(notices.getSize()));
     }
 
     @Test
