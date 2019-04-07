@@ -12,8 +12,13 @@
                 로그인 정보를 입력하세요.
             </div>
         </h2>
-
+        <th:block th:if="${param.error}">
+            <p style="color: red">
+                이메일이나 패스워드가 맞지 않습니다.
+            </p>
+        </th:block>
         <form method="POST" th:action="@{/session}" class="ui large form">
+            <p th:if="[SPRING_SECURITY_LAST_EXCEPTION]"></p>
             <div class="ui stacked segment">
                 <div class="field">
                     <div class="ui left icon input">

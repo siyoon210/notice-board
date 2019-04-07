@@ -2,6 +2,8 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:insert="fragments/head :: common"></th:block>
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>회원가입</title>
 </head>
 <body class="ui grid">
@@ -12,7 +14,8 @@
                 회원가입 정보를 입력하세요.
             </div>
         </h2>
-        <form th:action="@{/users}" id="userForm" class="ui large form" th:method="POST">
+        <form th:action="@{/users}" id="userForm" class="ui large form" th:method="POST" onsubmit="return checkForm();">
+            <p th:if="${duplicationStr != null}" th:text="'이미 사용중인 값입니다. '+${duplicationStr}" style="color: red"></p>
             <div class="ui stacked segment">
                 <div class="field">
                     <label style="float:left">이메일 주소</label>
@@ -48,7 +51,7 @@
                 </div>
                 <div class="two fields">
                     <div class="field">
-                        <button class="ui fluid large secondary submit button" type="submit" onclick="checkUserDuplication()">회원가입</button>
+                        <button class="ui fluid large secondary submit button">회원가입</button>
                     </div>
                     <div class="field">
                         <a class="ui fluid large button" style="float:right" href="/">취소</a>
@@ -61,38 +64,35 @@
 
 </body>
 <script>
-    $("#password").keyup(function () {
-        if ($("#password").val().length < 4) {
-            $('#passwordError').html("<p style='color:red'>비밀번호는 최소 4글자 이상 입력해주세요.</p>")
-            return
-        }
-
-        $('#passwordError').html("");
-    });
-
-    //비밀번호와 비밀번호 확인이 같은지 확인
-    $("#passwordCheck").keyup(function () {
+    var isValidForm = true;
+    $("#passwordCheck").keyup(function checkSameVal() {
         if ($("#password").val() != $("#passwordCheck").val()) {
-            $('#passwordError').html("<p style='color:red'>비밀번호와 비밀번호 확인이 같지 않습니다.</p>")
-            return
+            $('#passwordError').html("<p style='color:red'>비밀번호와 비밀번호 확인이 같지 않습니다.</p>");
+            isValidForm = false;
+            return;
         }
 
+        isValidForm = true;
         $('#passwordError').html("");
     });
 
-    function checkUserDuplication() {
-        $.ajax({
-            success: function () {
-                window.location.replace("/session");
-            },
-            error: function (jqXHR) {
-                if (jqXHR.status === 400) {
-                    alert("입력값이 올바르지 않습니다.");
-                } else if (jqXHR.status === 500) {
-                    alert("서버의 문제가 발생했습니다.");
-                }
+    $("#password").keyup(function checkMinLength() {
+            if ($("#password").val().length < 4) {
+                $('#passwordError').html("<p style='color:red'>비밀번호는 최소 4글자 이상 입력해주세요.</p>");
+                isValidForm = false;
+                return;
             }
-        });
+
+            isValidForm = true;
+            $('#passwordError').html("");
+        }
+    );
+
+    function checkForm() {
+        if (!isValidForm) {
+            alert("회원가입의 입력란을 확인해주세요.")
+            return false;
+        }
     }
 </script>
 </html>

@@ -1,6 +1,7 @@
 package me.siyoon.noticeboard.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -12,6 +13,18 @@ import java.sql.SQLException;
 @ControllerAdvice
 @Slf4j
 public class ExceptionController {
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public String handleConstraintViolationException(DataIntegrityViolationException e,Model model) {
+        String duplicationStr = getDuplicationStr(e);
+        model.addAttribute("duplicationStr", duplicationStr);
+        return "signUp";
+    }
+
+    private String getDuplicationStr(DataIntegrityViolationException e) {
+        String message = e.getCause().getCause().getMessage();
+        return message.substring(29, message.indexOf("' for key '"));
+    }
+
     @ExceptionHandler(SQLException.class)
     public ResponseEntity handleSQLException(SQLException e) {
         log.warn(e.getClass().getName() + " : " + e.getMessage());
