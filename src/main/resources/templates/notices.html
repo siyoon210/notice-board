@@ -39,7 +39,7 @@
                 <a th:href="@{'/notices/'+${notice.id}}" th:text="${notice.title}"></a>
             </td>
             <td th:text="${notice.user.nickName}" class="center aligned"></td>
-            <td th:text="${notice.registerDate}" class="center aligned"></td>
+            <td th:text="${notice.registerDate.toLocalDate()}" class="center aligned"></td>
         </tr>
         </tbody>
     </table>
